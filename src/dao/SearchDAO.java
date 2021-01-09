@@ -7,14 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.Account;
-import model.Login;
+import model.Case;
+import model.Search;
 
-public class AccountDAO {
+public class SearchDAO {
 
-	public Account findByLogin(Login login) {
+	public Case SearchCase(Search search) {
 		Connection conn = null;
-		Account account = null;
+		Case case1 = null;
 		try {
 			//JDBCドライバを読み込み
 			Class.forName("org.h2.Driver");
@@ -24,24 +24,25 @@ public class AccountDAO {
 					"jdbc:h2:file:C:\\Users\\81802\\Documents\\date\\CALLLOG", "tomo", "1733");
 
 			//SELECT文の準備
-			String sql = "SELECT USER_ID,PASS,NAME,CHARGE FROM ACCOUNT WHERE USER_ID=? AND PASS=?";
+			String sql = "SELECT CASE_ID,NAME,PHONE,CONTENTS,CHARGE FROM CUSTOMER WHERE CASE_ID=? OR PHONE=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, login.getUserID());
-			ps.setString(2, login.getPass());
+			ps.setInt(1, search.getCase_id());
+			ps.setString(2, search.getPhone());
 
 			//結果表の取得
 			ResultSet rs = ps.executeQuery();
 
 			//一致したユーザーがいれば
-			//そのユーザーのAccountインスタンスを生成
+			//そのユーザーのCaseインスタンスを生成
 			if (rs.next()) {
 				//結果表からデータを取得
-				String userID = rs.getString("USER_ID");
-				String pass = rs.getString("PASS");
+				int case_id = rs.getInt("CASE_ID");
 				String name = rs.getString("NAME");
+				String phone = rs.getString("PHONE");
+				String contents = rs.getString("CONTENTS");
 				String charge = rs.getString("CHARGE");
 
-				account = new Account(userID, pass, name, charge);
+				case1 = new Case(case_id, name, phone, contents, charge);
 			}
 
 		} catch (SQLException e) {
@@ -61,6 +62,6 @@ public class AccountDAO {
 				}
 			}
 		}
-		return account;
+		return case1;
 	}
 }
