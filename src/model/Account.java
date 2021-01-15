@@ -6,6 +6,9 @@ public class Account {
 	private String name;
 	private String charge;
 
+	public Account() {
+	};
+
 	public Account(String userId, String pass, String name, String charge) {
 		this.userId = userId;
 		this.pass = pass;

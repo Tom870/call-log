@@ -41,9 +41,6 @@ public class LoginServlet extends HttpServlet {
 		Login login = new Login(userid, pass);
 		LoginLogic logic = new LoginLogic();
 		if (logic.execute(login)) {
-			//セッションスコープに保存
-			request.getSession().setAttribute("userid", userid);
-
 			//ログイン後、トップ画面にフォワード
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/Top.jsp").forward(request, response);
 		} else {

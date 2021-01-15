@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Case;
 import model.Register;
 import model.RegisterLogic;
 
@@ -40,11 +41,14 @@ public class RegisterServlet extends HttpServlet {
 		//入力されたデータを登録
 		Register register = new Register(name, phone, contents, charge);
 		RegisterLogic logic = new RegisterLogic();
-		int case_id = logic.execute(register);
+		Case result = logic.execute(register);
 
 		//ケースIDをセッションスコープに保存
-		request.getSession().setAttribute("case_id", case_id);
-
+		request.getSession().setAttribute("case_id", result.getCase_id());
+		request.getSession().setAttribute("phone", result.getPhone());
+		request.getSession().setAttribute("name", result.getName());
+		request.getSession().setAttribute("contents", result.getContents());
+		request.getSession().setAttribute("charge", result.getCharge());
 		//フォワード
 		request.getRequestDispatcher("/WEB-INF/jsp/RegisterOK.jsp").forward(request, response);
 	}

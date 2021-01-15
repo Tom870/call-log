@@ -3,9 +3,15 @@ package model;
 import dao.RegisterDAO;
 
 public class RegisterLogic {
-	public int execute(Register register) {
+	public Case execute(Register register) {
 		RegisterDAO dao = new RegisterDAO();
-		int case_id = dao.RegisterUser(register);
-		return case_id;
+		Case result = dao.RegisterUser(register);
+		return result;
+	}
+
+	public Case EditExecute(Case case1) {
+		RegisterDAO dao = new RegisterDAO();
+		Case result = dao.EditUser(case1);
+		return result;
 	}
 }
